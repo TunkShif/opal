@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  lsp:
+    git: https://github.com/tunkshif/lsp.cr.git
+    version: 0.1.0+git.commit.b96d0e5d2939a5c56f99cc6a1edb7ac50fdc066d
+

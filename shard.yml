@@ -1,0 +1,17 @@
+name: opal
+version: 0.1.0
+
+authors:
+  - TunkShif <tunkshif@foxmail.com>
+
+targets:
+  opal:
+    main: src/opal.cr
+
+dependencies:
+  lsp:
+    github: TunkShif/lsp.cr
+
+crystal: 1.4.0
+
+license: MIT
