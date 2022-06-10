@@ -25,6 +25,7 @@ module Opal
     end
 
     def read
+      # Log.warn {"input closed?: #{@in.closed?}"}
       return exit(1) if @in.closed?
 
       MessageParser.parse(@in) do |contents|

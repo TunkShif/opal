@@ -13,7 +13,9 @@ module LSP
   abstract class NotificationMessage
     use_json_discriminator "method", {
       "initialized" => InitializedNotification,
-      "exit" => ExitNotification
+      "exit" => ExitNotification,
+      "textDocument/didOpen" => DidOpenTextDocumentNotification,
+      "textDocument/didSave" => DidSaveTextDocumentNotification
     }
   end
 end

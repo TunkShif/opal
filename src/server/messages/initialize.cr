@@ -13,11 +13,17 @@ module LSP
       workspace = ServerCapabilities::Workspace.new(
         workspace_folders: WorkspaceFoldersServerCapabilities.new,
       )
+      text_document_sync_options = TextDocumentSyncOptions.new(
+        change: TextDocumentSyncKind::Full,
+        open_close: true,
+        save: true
+      )
       diagnostic_options = DiagnosticOptions.new(true, false)
 
       capabilities = ServerCapabilities.new(
         workspace: workspace,
-        diagnostic_provider: diagnostic_options
+        text_document_sync: text_document_sync_options,
+        diagnostic_provider: diagnostic_options,
       )
       @result = InitializeResult.new(capabilities, server_info)
     end
