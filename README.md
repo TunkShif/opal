@@ -23,6 +23,7 @@ Opal is a working-in-progress language server for Crystal language.
 - [Solargraph][0]
 - [Crystalline][1]
 - [Ameba][2]
+- [Mint Language][5]
 - [rust-analyzer][3]
 - [Crystal Language][4]
 
@@ -31,3 +32,4 @@ Opal is a working-in-progress language server for Crystal language.
 [2]: https://github.com/crystal-ameba/ameba
 [3]: https://github.com/rust-lang/rust-analyzer
 [4]: https://crystal-lang.org/
+[5]: https://github.com/mint-lang/mint
