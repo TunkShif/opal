@@ -18,18 +18,31 @@ module Opal
     def self.analyze(uri : String)
       file = URI.parse(uri).to_s.sub(/^file:\/\//, "")
       status, output = run_cmd("crystal", ["build", file, "-fjson", "--no-codegen"])
-      return [] of LSP::Diagnostic if status == 0
-      JSON.parse(output).as_a.map { |it| to_diagnostic(it) }
+
+      return {uri => [] of LSP::Diagnostic} if status == 0
+
+      diagnostics = {} of String => Array(LSP::Diagnostic)
+
+      JSON.parse(output).as_a
+        .map { |it| to_diagnostic(it) }
+        .each do |item|
+          uri, diagnostic = item
+          diagnostics[uri] ||= [] of LSP::Diagnostic
+          diagnostics[uri] << diagnostic
+        end
+
+      diagnostics
     end
 
     def self.to_diagnostic(json : JSON::Any)
+      uri = "file://#{json["file"].as_s}"
       line = json["line"].as_i.to_u32 - 1
       start = json["column"].as_i.to_u32 - 1
       ending = start + json["size"].as_i.to_u32
       range = LSP::Range.new(line, start, line, ending)
       message = json["message"].as_s
 
-      LSP::Diagnostic.new(range, message, source: "crystal")
+      {uri, LSP::Diagnostic.new(range, message, source: "crystal")}
     end
   end
 end

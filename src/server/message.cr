@@ -6,16 +6,16 @@ module LSP
   abstract class RequestMessage
     use_json_discriminator "method", {
       "initialize" => InitializeRequest,
-      "shutdown" => ShutdownRequest
+      "shutdown"   => ShutdownRequest,
     }
   end
 
   abstract class NotificationMessage
     use_json_discriminator "method", {
-      "initialized" => InitializedNotification,
-      "exit" => ExitNotification,
+      "initialized"          => InitializedNotification,
+      "exit"                 => ExitNotification,
       "textDocument/didOpen" => DidOpenTextDocumentNotification,
-      "textDocument/didSave" => DidSaveTextDocumentNotification
+      "textDocument/didSave" => DidSaveTextDocumentNotification,
     }
   end
 end

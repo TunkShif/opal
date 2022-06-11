@@ -1,12 +1,13 @@
 require "log"
 require "./server"
-require "./server/messages"
 
-def main
-  log = File.open("/tmp/opal.log", "w")
-  Log.setup(:debug, Log::IOBackend.new(log))
+module Opal
+  def self.start
+    log = File.open("/tmp/opal.log", "w")
+    Log.setup(:debug, Log::IOBackend.new(log))
 
-  Opal::Server.run
+    Server.new.run
+  end
 end
 
-main
+Opal.start
