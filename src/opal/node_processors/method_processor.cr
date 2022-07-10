@@ -1,9 +1,9 @@
-require "../pin/*"
+require "../pins/*"
 
-module Opal::NodeProcessor
+module Opal
   class MethodProcessor < Crystal::Visitor
-    getter namespace : Pin::Namespace
-    getter pins : Array(Pin::Method)
+    getter namespace : NamespacePin
+    getter pins : Array(MethodPin)
 
     def process(node : Crystal::ASTNode)
       node.accept self
@@ -11,17 +11,17 @@ module Opal::NodeProcessor
     end
 
     def initialize(@namespace)
-      @pins = [] of Pin::Method
+      @pins = [] of MethodPin
     end
 
     private def get_type(node : Crystal::Def)
       type = case @namespace.type
-             in Pin::Namespace::Type::Class, Pin::Namespace::Type::Module, Pin::Namespace::Type::Enum
-               Pin::Method::Type::Instance
-             in Pin::Namespace::Type::Toplevel
-               Pin::Method::Type::Toplevel
+             in NamespacePin::Type::Class, NamespacePin::Type::Module, NamespacePin::Type::Enum
+               MethodPin::Type::Instance
+             in NamespacePin::Type::Toplevel
+               MethodPin::Type::Toplevel
              end
-      type = Pin::Method::Type::Class if node.receiver
+      type = MethodPin::Type::Class if node.receiver
       # TODO: check for constructor methods
       type
     end
@@ -34,7 +34,7 @@ module Opal::NodeProcessor
       # def Foo.bar
       # end
       # ```
-      @pins << Pin::Method.new(node.name, node, node.get_location, type, params, @namespace)
+      @pins << MethodPin.new(node.name, node, node.get_location, type, params, @namespace)
       false
     end
 

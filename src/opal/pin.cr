@@ -1,22 +1,23 @@
-require "../base/location"
+require "lsp"
+require "./requires"
 
-module Opal::Pin
+module Opal
   enum Visibility
     Public
     Protected
     Private
   end
 
-  class Base
+  class Pin
     getter name : String
-    getter location : Location?
+    getter location : LSP::Location?
     getter node : Crystal::ASTNode
 
     def initialize(@name, @node, @location)
     end
 
     def completion_item_kind
-      CompletionItemKind::KEYWORD
+      CompletionItemKind::Keyword
     end
   end
 end

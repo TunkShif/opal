@@ -1,7 +1,8 @@
-require "../../spec_helper"
+require "../spec_helper"
+require "../../src/opal/ext"
 
 module Opal
-  describe Location do
+  describe Crystal::ASTNode do
     it "node#get_location" do
       source = [%(foo = "bar"), %(bar = "baz")].join "\n"
 

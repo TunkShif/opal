@@ -1,12 +1,12 @@
-require "../pin/*"
+require "../pins/*"
 require "../helper/ast_node"
 
-module Opal::NodeProcessor
+module Opal
   class AssignProcessor < Crystal::Visitor
-    getter pins : Array(Pin::Variable)
+    getter pins : Array(VariablePin)
 
     def initialize
-      @pins = [] of Pin::Variable
+      @pins = [] of VariablePin
     end
 
     def process(node : Crystal::ASTNode)
@@ -17,8 +17,8 @@ module Opal::NodeProcessor
     def visit(node : Crystal::Assign)
       target = node.target
       name = Helper::ASTNode.get_name(node)
-      type = Pin::Variable::Type.from_node(target)
-      @pins << Pin::Variable.new(name, target, target.get_location, type)
+      type = VariablePin::Type.from_node(target)
+      @pins << VariablePin.new(name, target, target.get_location, type)
       false
     end
 

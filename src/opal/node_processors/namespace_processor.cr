@@ -1,13 +1,13 @@
-require "../pin/*"
+require "../pins/*"
 require "../helper/ast_node"
 
-module Opal::NodeProcessor
+module Opal
   class NamespaceProcessor < Crystal::Visitor
-    getter pins : Array(Pin::Namespace)
+    getter pins : Array(NamespacePin)
 
     def initialize
       @current = [] of Crystal::Path
-      @pins = [] of Pin::Namespace
+      @pins = [] of NamespacePin
     end
 
     def process(node : Crystal::ASTNode)
@@ -21,8 +21,8 @@ module Opal::NodeProcessor
       path = @current.map(&.names).flatten
       unless @pins.map(&.path_name).includes?(path.join("::"))
         name = Helper::ASTNode.get_name(node)
-        type = Pin::Namespace::Type.from_node(node)
-        @pins << Pin::Namespace.new(name, node, node.get_location, type, path)
+        type = NamespacePin::Type.from_node(node)
+        @pins << NamespacePin.new(name, node, node.get_location, type, path)
       end
       true
     end

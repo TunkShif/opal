@@ -1,7 +1,9 @@
-require "./*"
+require "../pin"
+require "./method_pin"
+require "./variable_pin"
 
-module Opal::Pin
-  class Namespace < Base
+module Opal
+  class NamespacePin < Pin
     enum Type
       Class
       Module
@@ -17,7 +19,7 @@ module Opal::Pin
         when Crystal::EnumDef
           Enum
         else
-          raise "Unreachable"
+          raise "Unknown namespace node type."
         end
       end
     end
@@ -25,13 +27,13 @@ module Opal::Pin
     getter type : Type
     getter path : Array(String)
     getter path_name : String
-    # getter variables : Array(Pin::Variable)
-    # getter methods : Array(Pin::Method)
-    # getter included : Array(Pin::Namespace)
-    # getter extended : Array(Pin::Namespace)
-    getter visibility : Pin::Visibility
+    # getter variables : Array(VariablePin)
+    # getter methods : Array(MethodPin)
+    # getter included : Array(NamespacePin)
+    # getter extended : Array(NamespacePin)
+    getter visibility : Visibility
 
-    def initialize(@name, @node, @location, @type, @path, @visibility = Pin::Visibility::Public)
+    def initialize(@name, @node, @location, @type, @path, @visibility = Visibility::Public)
       @path_name = @path.join("::")
     end
 

@@ -1,12 +1,12 @@
-require "./base"
+require "../pin"
 
-module Opal::Pin
-  class Variable < Base
+module Opal
+  class VariablePin < Pin
     enum Type
       Const
       Local
-      Instance
       Class
+      Instance
 
       def self.from_node(node : Crystal::ASTNode)
         case node
@@ -19,7 +19,7 @@ module Opal::Pin
         when Crystal::ClassVar
           Class
         else
-          raise "Unreachable"
+          raise "Unknown variable node type."
         end
       end
     end
